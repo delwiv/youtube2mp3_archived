@@ -3,12 +3,12 @@ var ytdl = require('youtube-dl');
 var _ = require('lodash');
 var rtc = require('./real-time-controller.js');
 var path = require('path');
+var converter = require('./converter-controller.js');
 
 
 var VideoController = {
     downloadList: [],
-    downloading: false,
-    rtc: rtc
+    downloading: false
 };
 
 VideoController.addVideos = function(params, callback) {
@@ -29,43 +29,13 @@ VideoController.updateDownloadList = function(link) {
     };
     self.downloadList.push(download);
 
-    self.rtc.emit('dlAdded', download);
+    rtc.emit('dlAdded', download);
 
     if (!self.dowloading) {
         self.dowloading = true;
         self.launchDownload(download);
     }
 };
-//
-//
-//
-//
-// TODO :
-//
-//  WEBSOCKETS !!!!
-//  CONVERSION !!
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 //recursive ++index
 VideoController.launchDownload = function(download) {
@@ -83,13 +53,14 @@ VideoController.launchDownload = function(download) {
     video.custom.index = download.index;
 
     video.on('info', function(info) {
-        console.log('Download started');
-        console.log('filename: ' + info._filename);
-        console.log('size: ' + info.size);
-
-        video.custom.output = path.join(__dirname, '../downloading/' + info._filename);
-        video.custom.infos = info;
+        // console.log('Download started');
+        // console.log('filename: ' + info._filename);
+        // console.log('size: ' + info.size);
+        var filename = info._filename.replace(/(\ |\(|\))/g, '');
+        video.custom.output = path.join(__dirname, '../downloading/' + filename);
+        video.custom.filename = filename;
         video.custom.pos = 0;
+        video.custom.size = info.size;
 
         video.pipe(fs.createWriteStream(video.custom.output));
 
@@ -104,16 +75,17 @@ VideoController.launchDownload = function(download) {
         // `size` should not be 0 here.
         if (video.custom.size) {
             video.custom.percent = (video.custom.pos / video.custom.size * 100).toFixed(2);
-            process.stdout.cursorTo(0);
-            process.stdout.clearLine(1);
-            process.stdout.write(video.custom.percent + '%');
+            // process.stdout.cursorTo(0);
+            // process.stdout.clearLine(1);
+            // process.stdout.write(video.custom.percent + '%');
+            // console.log(data);
 
             rtc.emit('dlProgress', video.custom);
         }
     });
 
     video.on('end', function() {
-        console.log('DL finished');
+        // console.log('DL finished');
         video.custom.status = 'converting';
         rtc.emit('dlFinished', video.custom);
         self.convert(video.custom);
@@ -122,7 +94,24 @@ VideoController.launchDownload = function(download) {
 };
 
 VideoController.convert = function(data) {
-    console.log('should lauch conversion here ;)');
+    console.log('launching conversion...');
+
+    converter.convertVideo(data, function(error, file) {
+        if (error) {
+            console.log(error);
+            rtc.emit('convertError', error);
+        } else {
+            console.log(file);
+            var filename = file.replace(/^.*[\\\/]/, '');
+            var audio = {
+                filename: filename,
+                path: 'http://localhost:3040/audio/' + filename
+            }
+            rtc.links.push(audio);
+            rtc.emit('convertSuccess', audio);
+        }
+    });
+
 };
 
 module.exports = VideoController;

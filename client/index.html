@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Test</title>
+    <link rel="stylesheet" type="text/css" href="vendors/foundation/css/foundation.min.css">
 </head>
+
 <body ng-app="app">
-
-<form ng-controller="MainController">
-    <input type="text" placeholder="link" ng-model="link" />
-    <input type="button" value="Submit" ng-click="sendLink()">
-</form>
-
-<label>Download list</label>
-<p>{{info}}</p>
-<p>{{dlInfo}}</p>
-
+    <div ng-controller="MainController" class="row">
+        <div class="small-12 large-6 collums">
+            <form>
+                <input type="text" placeholder="Paste youtube link here..." ng-model="links[0]" />
+                <input type="button" value="Submit" ng-click="sendLink()">
+            </form>
+            <label>Download list</label>
+            <div ng-repeat="info in infos">
+                <h3>{{info.filename}}</h3>
+            </div>
+            <p>{{dlInfo.filename}}</p>
+            <p>{{dlInfo.percent}} %</p>
+        </div>
+        <div class="small-12 large-6 collums">
+            <p ng-if="converting">{{converting}}</p>
+            <ul>
+                <li ng-repeat="audio in audios">
+                    <a href="{{audio.path}}">{{audio.filename}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
+<!-- <script type="text/javascript" src="vendors/foundation/js/foundation/foundation.js"></script> -->
 <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
-<script type="text/javascript" src="vendors/engine.io/engine.io.js"></script>
+<script type="text/javascript" src="vendors/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="app.js"></script>
+
 </html>

@@ -1,27 +1,37 @@
-var engine = require('engine.io');
+var RealTimeController = {
+    lastCall: new Date().getTime()
+};
 
-var RealTimeController = {};
-
-RealTimeController.init = function(app) {
+RealTimeController.init = function(io) {
     var rtc = this;
-    this.socket = {};
 
-    var server = engine.attach(app);
 
-    server.on('connection', function(socket) {
+    io.on('connection', function(socket) {
         rtc.socket = socket;
         console.log('New connection!');
-        socket.on('ping', function(data) {
-            console.log('pig catched ! ponging back... ' + data);
-            socket.send('pong');
-        });
+
+        socket.emit('hello');
+
+        if (rtc.links.length) {
+            socket.emit('currentLinks', rtc.links)
+
+        }
+
     });
+
 };
 
+RealTimeController.links = [];
+
 RealTimeController.emit = function(event, info) {
-    console.log(event, info);
+    // console.log(event/*, info*/);
     // console.log(this.socket);
-    this.socket.send(event, info);
+    // if (new Date().getTime() - this.lastCall > 1000) {
+        this.socket.emit(event, info);
+        this.lastCall = new Date().getTime();
+    // }
+
 };
+
 
 module.exports = RealTimeController;
