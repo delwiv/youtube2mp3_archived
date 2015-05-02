@@ -1,6 +1,8 @@
-module.exports = function(server) {
+var loopback = require('loopback');
+var path = require('path');
+
+module.exports = function(app) {
   // Install a `/` route that returns server status
-  var router = server.loopback.Router();
-  router.get('/', server.loopback.status());
-  server.use(router);
+  app.use(loopback.static(path.resolve(__dirname, '../../client')));
+
 };

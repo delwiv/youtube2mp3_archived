@@ -6,12 +6,15 @@
     "pretest": "jshint ."
   },
   "dependencies": {
+    "body-parser": "^1.12.3",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "engine.io": "^1.5.1",
     "errorhandler": "^1.1.1",
     "lodash": "^3.7.0",
     "loopback": "^2.14.0",
     "loopback-boot": "^2.6.5",
+    "loopback-connector-mongodb": "^1.8.0",
     "loopback-datasource-juggler": "^2.19.0",
     "serve-favicon": "^2.0.1",
     "ws": "^0.7.1",

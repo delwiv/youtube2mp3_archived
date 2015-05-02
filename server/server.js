@@ -1,7 +1,6 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var fs = require('fs');
-var youtubedl = require('youtube-dl');
+var rtc = require('./controllers/real-time-controller.js');
 
 var app = module.exports = loopback();
 
@@ -20,5 +19,5 @@ boot(app, __dirname, function(err) {
 
   // start the server if `$ node server.js`
   if (require.main === module)
-    app.start();
+    rtc.init(app.start());
 });

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body ng-app="app">
+
+<form ng-controller="MainController">
+    <input type="text" placeholder="link" ng-model="link" />
+    <input type="button" value="Submit" ng-click="sendLink()">
+</form>
+
+<label>Download list</label>
+<p>{{info}}</p>
+<p>{{dlInfo}}</p>
+
+</body>
+<script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+<script type="text/javascript" src="vendors/engine.io/engine.io.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</html>
