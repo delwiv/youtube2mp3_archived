@@ -110,8 +110,12 @@
             });
 
             socket.on('currentLinks', function(data) {
-                console.log(data);
-                $scope.audios = data;
+                var filename = data.filename;
+                var path = self.baseUrl + 'audio/' + filename;
+                $scope.audios.push({
+                    filename: filename,
+                    path: path
+                });
             });
         });
 })(angular, io);
