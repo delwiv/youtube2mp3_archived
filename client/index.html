@@ -17,8 +17,8 @@
             <div ng-repeat="info in infos">
                 <h3>{{info.filename}}</h3>
             </div>
-            <p>{{dlInfo.filename}}</p>
-            <p>{{dlInfo.percent}} %</p>
+            <!-- <p>{{dlInfo.filename}}</p> -->
+            <p ng-if="dlInfo">{{dlInfo.percent + '%'}}</p>
         </div>
         <div class="small-12 large-6 collums">
             <p ng-if="converting">{{converting}}</p>
@@ -31,6 +31,7 @@
     </div>
 </body>
 <!-- <script type="text/javascript" src="vendors/foundation/js/foundation/foundation.js"></script> -->
+<script type="text/javascript" src="vendors/lodash/lodash.js"></script>
 <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
 <script type="text/javascript" src="vendors/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="app.js"></script>

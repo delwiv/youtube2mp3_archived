@@ -90,7 +90,7 @@
             socket.on('convertStarted', function(data) {
                 console.log(data);
                 $scope.convertInfo = data;
-                $scope.converting =  data;
+                $scope.converting = data;
             });
 
             socket.on('convertSuccess', function(data) {
@@ -101,7 +101,7 @@
                     filename: filename,
                     path: path
                 });
-                $scope.converting = {};
+                $scope.converting = '';
             });
 
             socket.on('convertError', function(data) {
@@ -110,12 +110,19 @@
             });
 
             socket.on('currentLinks', function(data) {
-                var filename = data.filename;
-                var path = self.baseUrl + 'audio/' + filename;
-                $scope.audios.push({
-                    filename: filename,
-                    path: path
+
+                _.forEach(data, function(value) {
+                    console.log(value);
+                    var filename = value.filename;
+                    var path = self.baseUrl + 'audio/' + filename;
+
+                    $scope.audios.push({
+                        filename: filename,
+                        path: path
+                    });
                 });
+
+
             });
         });
 })(angular, io);

@@ -13,6 +13,7 @@ RealTimeController.init = function(io) {
         socket.emit('hello');
 
         if (rtc.links.length) {
+            console.log(rtc.links);
             socket.emit('currentLinks', rtc.links)
 
         }
