@@ -95,7 +95,7 @@
 
             socket.on('convertSuccess', function(data) {
                 console.log(data);
-                var filename = data;
+                var filename = data.filename;
                 var path = self.baseUrl + 'audio/' + filename;
                 $scope.audios.push({
                     filename: filename,
