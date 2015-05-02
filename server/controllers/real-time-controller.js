@@ -26,10 +26,10 @@ RealTimeController.links = [];
 RealTimeController.emit = function(event, info) {
     console.log(event/*, info*/);
     // console.log(this.socket);
-    // if (new Date().getTime() - this.lastCall > 1000) {
+    if (new Date().getTime() - this.lastCall > 2000) {
         this.socket.emit(event, info);
         this.lastCall = new Date().getTime();
-    // }
+    }
 
 };
 
