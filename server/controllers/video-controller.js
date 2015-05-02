@@ -46,7 +46,7 @@ VideoController.launchDownload = function(download) {
         return;
     }
 
-    var video = ytdl(download.link, ['--format=18'], {});
+    var video = ytdl(download.link, ['--force-ipv4', '--format=18'], {});
 
     video.custom = {};
     video.custom.size = 0;
