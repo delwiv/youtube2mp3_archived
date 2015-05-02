@@ -77,6 +77,7 @@
                 // console.log('DL Started ! ');
                 // console.log(data);
                 $scope.infos.push(data);
+                $scope.error = '';
             });
 
             socket.on('dlProgress', function(data) {
@@ -86,6 +87,10 @@
                 $scope.dlInfo = data;
                 // $scope.percent = data.percent + '%';
             });
+
+            socket.on('dlError', function(data) {
+                $scope.error = data;
+            })
 
             socket.on('convertStarted', function(data) {
                 console.log(data);

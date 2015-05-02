@@ -45,53 +45,58 @@ VideoController.launchDownload = function(download) {
         self.downloading = false;
         return;
     }
+    try {
 
-    var video = ytdl(download.link, ['--force-ipv4', '--format=18'], {});
+        var video = ytdl(download.link, ['--force-ipv4', '--format=18'], {});
 
-    video.custom = {};
-    video.custom.size = 0;
-    video.custom.index = download.index;
 
-    video.on('info', function(info) {
-        // console.log('Download started');
-        // console.log('filename: ' + info._filename);
-        // console.log('size: ' + info.size);
-        var filename = info._filename.replace(/(\ |\(|\))/g, '');
-        video.custom.output = path.join(__dirname, '../downloading/' + filename);
-        video.custom.filename = filename;
-        video.custom.pos = 0;
-        video.custom.size = info.size;
+        video.custom = {};
+        video.custom.size = 0;
+        video.custom.index = download.index;
 
-        video.pipe(fs.createWriteStream(video.custom.output));
+        video.on('info', function(info) {
+            // console.log('Download started');
+            // console.log('filename: ' + info._filename);
+            // console.log('size: ' + info.size);
+            var filename = info._filename.replace(/(\ |\(|\))/g, '');
+            video.custom.output = path.join(__dirname, '../downloading/' + filename);
+            video.custom.filename = filename;
+            video.custom.pos = 0;
+            video.custom.size = info.size;
 
-        download.video = video;
-        download.status = 'downloading';
+            video.pipe(fs.createWriteStream(video.custom.output));
 
-        rtc.emit('dlStarted', video.custom);
-    });
+            download.video = video;
+            download.status = 'downloading';
 
-    video.on('data', function(data) {
-        video.custom.pos += data.length;
-        // `size` should not be 0 here.
-        if (video.custom.size) {
-            video.custom.percent = (video.custom.pos / video.custom.size * 100).toFixed(2);
-            // process.stdout.cursorTo(0);
-            // process.stdout.clearLine(1);
-            // process.stdout.write(video.custom.percent + '%');
-            // console.log(data);
+            rtc.emit('dlStarted', video.custom);
+        });
 
+        video.on('data', function(data) {
+            video.custom.pos += data.length;
+            // `size` should not be 0 here.
+            if (video.custom.size) {
+                video.custom.percent = (video.custom.pos / video.custom.size * 100).toFixed(2);
+                // process.stdout.cursorTo(0);
+                // process.stdout.clearLine(1);
+                // process.stdout.write(video.custom.percent + '%');
+                // console.log(data);
+
+                rtc.emit('dlProgress', video.custom);
+            }
+        });
+
+        video.on('end', function() {
+            // console.log('DL finished');
+            video.custom.status = 'converting';
+            video.custom.percent = 100;
             rtc.emit('dlProgress', video.custom);
-        }
-    });
-
-    video.on('end', function() {
-        // console.log('DL finished');
-        video.custom.status = 'converting';
-        video.custom.percent = 100;
-        rtc.emit('dlProgress', video.custom);
-        self.convert(video.custom);
-        self.launchDownload(self.downloadList[video.custom.index + 1]);
-    });
+            self.convert(video.custom);
+            self.launchDownload(self.downloadList[video.custom.index + 1]);
+        });
+    } catch (error) {
+        rtc.emit('dlError', err);
+    }
 };
 
 VideoController.convert = function(data) {
