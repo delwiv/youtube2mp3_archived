@@ -24,12 +24,14 @@ RealTimeController.init = function(io) {
 RealTimeController.links = [];
 
 RealTimeController.emit = function(event, info) {
-    console.log(event/*, info*/);
+    console.log(event /*, info*/ );
     // console.log(this.socket);
-    if (new Date().getTime() - this.lastCall > 2000) {
-        this.socket.emit(event, info);
-        this.lastCall = new Date().getTime();
-    }
+    // if (event !== 'convertSuccess' || info.percent != 100) {
+    //     if (new Date().getTime() - this.lastCall > 500) {
+    this.socket.emit(event, info);
+    this.lastCall = new Date().getTime();
+    //     }
+    // }
 
 };
 

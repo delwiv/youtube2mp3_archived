@@ -87,7 +87,8 @@ VideoController.launchDownload = function(download) {
     video.on('end', function() {
         // console.log('DL finished');
         video.custom.status = 'converting';
-        rtc.emit('dlFinished', video.custom);
+        video.custom.percent = 100;
+        rtc.emit('dlProgress', video.custom);
         self.convert(video.custom);
         self.launchDownload(self.downloadList[video.custom.index + 1]);
     });
@@ -104,8 +105,7 @@ VideoController.convert = function(data) {
             console.log(file);
             var filename = file.replace(/^.*[\\\/]/, '');
             var audio = {
-                filename: filename,
-                path: 'http://localhost:3040/audio/' + filename
+                filename: filename
             }
             rtc.links.push(audio);
             rtc.emit('convertSuccess', audio);
