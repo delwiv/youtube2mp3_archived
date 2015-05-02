@@ -13,7 +13,7 @@ ConverterController.convertVideo = function(data, callback) {
     try {
         var process = new ffmpeg(data.output);
         process.then(function(video) {
-            rtc.emit('convertStarted', video.metadata);
+            rtc.emit('convertStarted', 'Converting...');
             video.fnExtractSoundToMP3(
                 path.join(__dirname, '../audio/' + data.filename),
                 function(error, file) {

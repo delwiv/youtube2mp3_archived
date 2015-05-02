@@ -90,7 +90,7 @@
             socket.on('convertStarted', function(data) {
                 console.log(data);
                 $scope.convertInfo = data;
-                $scope.converting = "Converting " + data.filename + '...';
+                $scope.converting =  data;
             });
 
             socket.on('convertSuccess', function(data) {
