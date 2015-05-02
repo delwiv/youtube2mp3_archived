@@ -34,8 +34,9 @@
             $httpProvider.defaults.useXDomain = true;
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         }])
-        .controller('MainController', function($scope, $http, socket) {
+        .controller('MainController', function($scope, $http, socket, $location) {
             var self = this;
+            self.baseUrl = $location.absUrl();
             $scope.downloads = [];
             $scope.infos = [];
             $scope.taLinks = '';
@@ -52,7 +53,7 @@
                 if (self.socket) {
                     socket.send('links', $scope.links);
                 } else {
-                    $http.post('http://localhost:3040/links', {
+                    $http.post(self.baseUrl + 'links', {
                         'links': $scope.links
                     });
                 }

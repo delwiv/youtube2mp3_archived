@@ -21,5 +21,5 @@ boot(app, __dirname, function(err) {
     if (require.main === module)
 
         app.io = require('socket.io')(app.start());
-        rtc.init(app.io);
+        rtc.init(app);
 });
