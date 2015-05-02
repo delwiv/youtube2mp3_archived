@@ -24,7 +24,7 @@ RealTimeController.init = function(io) {
 RealTimeController.links = [];
 
 RealTimeController.emit = function(event, info) {
-    // console.log(event/*, info*/);
+    console.log(event/*, info*/);
     // console.log(this.socket);
     // if (new Date().getTime() - this.lastCall > 1000) {
         this.socket.emit(event, info);
