@@ -93,7 +93,7 @@ gulp.task('vendors-js', function() {
             gulp.src(assets.vendors.js.min),
             gulp.src(assets.vendors.js.src)
             .pipe(debug({
-                title: 'unicorn:'
+                title: 'vendors-js:'
             }))
             .pipe(ngAnnotate())
             .pipe(uglify())
@@ -105,6 +105,9 @@ gulp.task('vendors-js', function() {
 
 gulp.task('vendors-css', function() {
     return gulp.src(assets.vendors.css.src)
+        .pipe(debug({
+            title: 'vendors-css:'
+        }))
         .pipe(cssmin())
         .pipe(concat('vendors.min.css'))
         .pipe(gulp.dest('client/assets/css'));
@@ -114,7 +117,7 @@ gulp.task('vendors-css', function() {
 gulp.task('app-js', function() {
     return gulp.src('client/app/**/*.js')
         .pipe(debug({
-            title: 'unicorn:'
+            title: 'app-js:'
         }))
         .pipe(sm.init())
         .pipe(concat('app.src.js'))
@@ -125,7 +128,7 @@ gulp.task('app-js', function() {
 gulp.task('app-sass', function() {
     return gulp.src(["client/app/**/*.scss"])
         .pipe(debug({
-            title: 'unicorn:'
+            title: 'app-sass:'
         }))
         .pipe(sass())
         .on('error', error)
@@ -146,9 +149,9 @@ gulp.task('default', ['dev'], function() {
     gulp.start('start-server');
 
     gulp.watch([
-        './server/**/*.js',
-        './server/**/*.json',
-        './common/**/*.*'
+        'server/**/*.js',
+        'server/**/*.json',
+        'common/**/*.*'
     ], ['start-server']);
 
     gulp.watch('./client/app/**/*.js', ['app-js']);
