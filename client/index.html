@@ -8,7 +8,7 @@
 
 <body ng-app="app">
     <div ng-controller="MainController">
-    <div class="row" ng-if="error" style="color:red;">{{error}}</div>
+        <div class="row" ng-if="error" style="color:red;">{{error}}</div>
         <div class="small-12 large-6 collums">
             <form>
                 <input type="text" placeholder="Paste youtube link here..." ng-model="links[0]" />
@@ -32,9 +32,7 @@
     </div>
 </body>
 <!-- <script type="text/javascript" src="vendors/foundation/js/foundation/foundation.js"></script> -->
-<script type="text/javascript" src="vendors/lodash/lodash.js"></script>
-<script type="text/javascript" src="vendors/angular/angular.min.js"></script>
-<script type="text/javascript" src="vendors/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="assets/js/vendors.min.js"></script>
+<script type="text/javascript" src="assets/js/app.min.js"></script>
 
 </html>

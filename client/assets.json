@@ -1,0 +1,22 @@
+{
+    "vendors": {
+        "css": {
+            "dest": "assets/css/vendors.min.css",
+            "src": [
+                "client/vendors/foundation/css/foundation.css",
+                "client/vendors/foundation/css/normalize.css"
+            ]
+        },
+        "js": {
+            "dest": "assets/js/vendors.min.js",
+            "src": [
+                "client/vendors/lodash/lodash.js",
+                "client/vendors/socket.io/socket.io.js"
+            ],
+            "min": [
+                "client/vendors/angular/angular.min.js",
+                "client/vendors/foundation/css/normalize.min.css"
+            ]
+        }
+    }
+}

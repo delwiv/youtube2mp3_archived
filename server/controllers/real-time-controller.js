@@ -14,7 +14,7 @@ RealTimeController.init = function(io) {
 
         if (rtc.links.length) {
             console.log(rtc.links);
-            socket.emit('currentLinks', rtc.links)
+            socket.emit('currentLinks', rtc.links);
 
         }
 
@@ -25,7 +25,7 @@ RealTimeController.init = function(io) {
 RealTimeController.links = [];
 
 RealTimeController.emit = function(event, info) {
-    console.log(event /*, info*/ );
+    // console.log(event , info );
     // console.log(this.socket);
     // if (event !== 'convertSuccess' || info.percent != 100) {
     //     if (new Date().getTime() - this.lastCall > 500) {

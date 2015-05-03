@@ -90,7 +90,7 @@
 
             socket.on('dlError', function(data) {
                 $scope.error = data;
-            })
+            });
 
             socket.on('convertStarted', function(data) {
                 console.log(data);
@@ -131,3 +131,6 @@
             });
         });
 })(angular, io);
+
+
+//# sourceMappingURL=app.src.js.map

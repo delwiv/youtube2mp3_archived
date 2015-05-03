@@ -115,6 +115,8 @@ VideoController.convert = function(data) {
             rtc.links.push(audio);
             rtc.emit('convertSuccess', audio);
         }
+        console.log('Deleting file ' + data.output);
+        fs.unlink(data.output);
     });
 
 };
