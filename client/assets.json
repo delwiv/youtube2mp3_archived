@@ -11,12 +11,13 @@
             "dest": "assets/js/vendors.min.js",
             "src": [
                 "client/vendors/socket.io/socket.io.js",
-                "client/vendors/loopback/lb-services.js"
-            ],
-            "min": [
+                "client/vendors/loopback/lb-services.js",
                 "client/vendors/lodash/lodash.min.js",
                 "client/vendors/angular/angular.min.js"
+            ],
+            "min": [
             ]
         }
     }
 }
+

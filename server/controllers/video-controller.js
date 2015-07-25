@@ -11,6 +11,13 @@ var VideoController = {
     downloading: false
 };
 
+VideoController.getAudio = function(req, res, next) {
+    fs.readdir(path.join(__dirname, '../audio/'), function(error, files){
+        if (error) return next(error);
+        res.json(files);
+    });
+}
+
 VideoController.addVideos = function(params, callback) {
     var self = this;
     _.forEach(params.links, function(link) {
@@ -58,7 +65,7 @@ VideoController.launchDownload = function(download) {
             // console.log('Download started');
             // console.log('filename: ' + info._filename);
             // console.log('size: ' + info.size);
-            var filename = info._filename.replace(/(\ |\(|\))/g, '');
+            var filename = info._filename.replace(/(\ |\(|\)|\"|\'|\.|\/")/g, '');
             video.custom.output = path.join(__dirname, '../downloading/' + filename);
             video.custom.filename = filename;
             video.custom.pos = 0;

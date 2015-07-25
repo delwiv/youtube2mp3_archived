@@ -64,7 +64,17 @@
             });
 
             socket.on('hello', function() {
-                console.log('Got Hello! from server :)');
+                $http.get('/audio').then(function(response) {
+                    var files = response.data;
+                    for (var i in files) {
+                        var filename = files[i];
+                        var path = self.baseUrl + 'audio/' + filename;
+                        $scope.audios.push({
+                            filename: filename,
+                            path: path
+                        });
+                    }
+                })
             })
 
             socket.on('dlAdded', function(data) {

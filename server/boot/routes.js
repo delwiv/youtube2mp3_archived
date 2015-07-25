@@ -11,5 +11,8 @@ module.exports = function(app) {
         // console.log(req);
         // var links = req
         VideoController.addVideos(req.body, next);
-    })
+    });
+    app.get('/audio', function(req, res, next){
+        VideoController.getAudio(req, res, next);
+    });
 };
